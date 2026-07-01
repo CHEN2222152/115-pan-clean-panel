@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>115 网盘定时清理面板</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="container">
+  <header><h1>📁 115 网盘定时清理面板</h1></header>
+
+  <div class="status-bar" id="statusBar">
+    <span id="cookieStatus">🔴 Cookie 未配置</span>
+    <span id="scheduleStatus">⏸️ 定时任务未启用</span>
+  </div>
+
+  <section class="card">
+    <h2>🔑 115 Cookie 配置</h2>
+    <p class="hint">从浏览器 F12 → 网络标签 → 访问 115.com → 复制请求 Cookie</p>
+    <div class="form-row">
+      <label>Cookie 字符串：</label>
+      <textarea id="cookieInput" rows="3" placeholder="UID=xxx; CID=xxx; SEID=xxx"></textarea>
+    </div>
+    <p id="cookieHint" class="hint" style="display:none; color:#065f46; background:#ecfdf5; padding:6px 10px; border-radius:6px;">
+      ✅ Cookie 已保存在服务器，关闭页面也不会丢。只有 Cookie 过期时才需重新粘贴。
+    </p>
+    <div class="btn-row">
+      <button class="btn primary" onclick="saveCookies()">💾 保存 Cookie</button>
+      <button class="btn secondary" onclick="verifyCookies()">✅ 验证 Cookie</button>
+    </div>
+    <div id="verifyResult" class="result"></div>
+  </section>
+
+  <section class="card">
+    <h2>🧹 手动清理</h2>
+    <div class="btn-row">
+      <button class="btn warn" onclick="cleanReceived()">📥 清理最近接收</button>
+      <button class="btn danger" onclick="cleanRecycle()">🗑️ 清空回收站</button>
+      <button class="btn danger" onclick="cleanAll()">🔥 一键全部清理</button>
+    </div>
+    <div id="cleanResult" class="result"></div>
+  </section>
+
+  <section class="card">
+    <h2>⏰ 定时任务</h2>
+    <div class="form-row">
+      <label>Cron 表达式（5段）：</label>
+      <input type="text" id="cronInput" value="0 0 * * *" placeholder="分 时 日 月 周">
+    </div>
+    <p class="hint">示例：<code>0 0 * * *</code> 每天凌晨0点 | <code>0 */6 * * *</code> 每6小时</p>
+    <div class="btn-row">
+      <button class="btn primary" onclick="enableSchedule()">▶️ 启用定时</button>
+      <button class="btn secondary" onclick="disableSchedule()">⏹️ 禁用定时</button>
+    </div>
+    <div id="scheduleInfo" class="result"></div>
+  </section>
+
+  <section class="card">
+    <h2>📋 执行日志</h2>
+    <div class="btn-row">
+      <button class="btn secondary" onclick="loadLogs()">🔄 刷新日志</button>
+    </div>
+    <pre id="logArea" class="log-box">加载中...</pre>
+  </section>
+</div>
+<script src="/app.js"></script>
+</body>
+</html>
